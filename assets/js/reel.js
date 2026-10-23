@@ -403,7 +403,13 @@
   };
 
   // ---------- Playing, pausing, jumping ----------
-  const play = () => { if (reduce || exporting) return; playing = true; tl.play(); };
+  // The first time the reel shows, fetch every clip (about 3 MB in all), so each is ready before its scene.
+  let warmed = false;
+  const warm = () => {
+    if (warmed) return; warmed = true;
+    clips.forEach(c => { c.v.preload = 'auto'; if (c.v.readyState === 0) c.v.load(); });
+  };
+  const play = () => { if (reduce || exporting) return; warm(); playing = true; tl.play(); };
   const pause = () => { playing = false; tl.pause(); clips.forEach(c => c.v.pause()); };
   // With Reduce Motion each chapter shows one still moment: everything in place, no pointer mid-flight.
   const still = { sScan: 4.8, sReview: 2.9, sClean: 3.0, sDone: 2.4, sAnalyze: 4.9, sApps: 4.6, sStatus: 3.6 };
