@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Gon — Your Mac, light again</title>
+  <meta name="description" content="Gon is a native macOS cleaner and system utility. It finds caches, build leftovers, old installers and what deleted apps left behind, and shows you every item before anything goes to the Trash.">
+  <meta name="theme-color" content="#0a0c14">
+  <link rel="icon" type="image/png" href="assets/img/favicon-64.png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Gon — Your Mac, light again">
+  <meta property="og:description" content="A native macOS cleaner that shows you every item before anything goes to the Trash.">
+  <meta property="og:image" content="https://caalabs.github.io/gon-app/assets/img/og.png">
+  <meta property="og:url" content="https://caalabs.github.io/gon-app/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://caalabs.github.io/gon-app/">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Gon","operatingSystem":"macOS 14 or later",
+   "applicationCategory":"UtilitiesApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+   "publisher":{"@type":"Organization","name":"CaaLabs"},"url":"https://caalabs.github.io/gon-app/",
+   "image":"https://caalabs.github.io/gon-app/assets/img/icon-512.png",
+   "description":"A native macOS cleaner that finds caches, build leftovers, old installers and what deleted apps left behind, and shows every item before anything goes to the Trash."}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+  <!-- Icons, drawn for this page in the spirit of the app's symbols. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-sparkle" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1.5c.5 4.9 2.6 7.9 9 10.5-6.4 2.6-8.5 5.6-9 10.5-.5-4.9-2.6-7.9-9-10.5 6.4-2.6 8.5-5.6 9-10.5Z"/><path fill="currentColor" opacity=".7" d="M19.5 1.8c.2 1.6.9 2.5 2.7 3.3-1.8.8-2.5 1.7-2.7 3.3-.2-1.6-.9-2.5-2.7-3.3 1.8-.8 2.5-1.7 2.7-3.3Z"/></symbol>
+      <symbol id="i-ai" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="3.5"/><path d="M9 2.5v2.5M15 2.5v2.5M9 19v2.5M15 19v2.5M2.5 9H5M2.5 15H5M19 9h2.5M19 15h2.5"/><path d="M12 8.6c.3 1.9 1 2.9 3.2 3.4-2.2.5-2.9 1.5-3.2 3.4-.3-1.9-1-2.9-3.2-3.4 2.2-.5 2.9-1.5 3.2-3.4Z" fill="currentColor" stroke="none"/></g></symbol>
+      <symbol id="i-apps" viewBox="0 0 24 24"><g fill="currentColor"><rect x="3" y="3" width="7.5" height="7.5" rx="2.2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2.2" opacity=".75"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2.2" opacity=".75"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2.2" opacity=".5"/></g></symbol>
+      <symbol id="i-analyze" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9h-9V3Z"/><path d="M15 2.6A9 9 0 0 1 21.4 9H15V2.6Z" fill="currentColor"/></g></symbol>
+      <symbol id="i-optimize" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 16a8 8 0 1 1 16 0"/><path d="M12 16l4.5-5"/><circle cx="12" cy="16" r="1.6" fill="currentColor"/><path d="M6.3 10.3l1 1M12 6.5v1.4M17.7 10.3l-1 1"/></g></symbol>
+      <symbol id="i-status" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" d="M2.5 12.5h3.8l2.4-6 4.6 12 2.6-7.2 1.4 1.2h4.2"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="m5 12.5 4.5 4.5L19 7"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 2.8 4.5 5.6v6c0 4.6 3.2 8.2 7.5 9.6 4.3-1.4 7.5-5 7.5-9.6v-6L12 2.8Z"/><path d="m8.8 12.2 2.2 2.2 4.3-4.6" stroke-linecap="round"/></g></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5h16M9.5 6.5V4.5h5v2M6 6.5l1 13.5h10l1-13.5"/><path d="M10 10.5v6M14 10.5v6"/></g></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="10.5" width="14" height="10" rx="2.6"/><path d="M8.5 10.5V7.8a3.5 3.5 0 0 1 7 0v2.7"/><circle cx="12" cy="15.5" r="1.3" fill="currentColor"/></g></symbol>
+      <symbol id="i-eye" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="3"/></g></symbol>
+      <symbol id="i-list" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 6.5h11M9 12h11M9 17.5h11"/><circle cx="4.8" cy="6.5" r="1.1" fill="currentColor"/><circle cx="4.8" cy="12" r="1.1" fill="currentColor"/><circle cx="4.8" cy="17.5" r="1.1" fill="currentColor"/></g></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/><path d="M19.5 4v4.5H15"/></g></symbol>
+      <symbol id="i-cloud" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18.5h10a4 4 0 0 0 .6-8 5.5 5.5 0 0 0-10.6 1.4A3.3 3.3 0 0 0 7 18.5Z"/><path d="M12 15.5v-5M9.8 12.6 12 10.4l2.2 2.2"/></g></symbol>
+      <symbol id="i-box" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5v-9Z"/><path d="M3.5 7.5 12 12l8.5-4.5M12 12v9"/></g></symbol>
+      <symbol id="i-hammer" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m13.5 7.5-9 9a1.8 1.8 0 0 0 2.5 2.5l9-9"/><path d="m11.5 5.5 3-3 7 7-3 3-1.5-1.5-2 2-3.5-3.5 2-2-2-2Z"/></g></symbol>
+      <symbol id="i-down" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></g></symbol>
+      <symbol id="i-apple" viewBox="0 0 24 24"><path fill="currentColor" d="M16.4 12.7c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.5-1-2.5-3.9ZM14 5.6c.7-.8 1.1-1.9 1-3-.9 0-2.1.6-2.8 1.4-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.5 2.8-1.3Z"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+  <canvas id="sparkles" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="nav" id="nav">
+    <div class="wrap">
+      <a class="brand" href="#top" aria-label="Gon home"><img src="assets/img/favicon-64.png" alt="" width="30" height="30">Gon</a>
+      <nav class="nav-links" aria-label="Sections">
+        <a href="#tour">Tour</a>
+        <a href="#clean">Clean</a>
+        <a href="#analyze">Analyze</a>
+        <a href="#safety">Safety</a>
+        <a href="#assistant">Assistant</a>
+      </nav>
+      <a class="btn btn-primary btn-small js-download" href="https://github.com/caalabs/gon-app/releases/latest">
+        <svg><use href="#i-down"/></svg>Download
+      </a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ================= HERO ================= -->
+    <section class="hero" style="padding-top:34px">
+      <div class="wrap">
+        <div class="hero-icon" id="heroIcon"><img src="assets/img/icon-512.png" alt="Gon app icon" width="132" height="132"></div>
+        <div class="eyebrow"><span class="dot"></span>A native Mac app · macOS 14 or later</div>
+        <h1>
+          <span class="line rise"><span style="--d:.05s">Your Mac,</span></span>
+          <span class="line rise"><span class="shine" style="--d:.18s">light again.</span></span>
+        </h1>
+        <p class="lede reveal" style="--d:.35s">Gon finds the space your Mac quietly gave away — caches, build leftovers,
+          forgotten installers, apps you removed months ago — and shows you every item before anything goes to the Trash.</p>
+        <div class="hero-cta reveal" style="--d:.5s">
+          <a class="btn btn-primary js-download" href="https://github.com/caalabs/gon-app/releases/latest">
+            <svg><use href="#i-apple"/></svg>Download for Mac
+          </a>
+          <a class="btn btn-glass" href="#tour">Take the tour</a>
+        </div>
+        <p class="hero-meta reveal" style="--d:.6s"><b class="js-version">Free</b> · Apple silicon · No account, no tracking</p>
+
+        <div class="stage reveal" style="--d:.7s">
+          <div class="window" id="heroWindow" style="--accent: var(--cyan)">
+            <div class="window-bar">
+              <div class="lights"><i></i><i></i><i></i></div>
+              <div class="tabs" id="heroTabs" aria-hidden="true">
+                <span class="on" style="--accent:var(--cyan)"><svg><use href="#i-sparkle"/></svg><span class="lbl">Clean</span></span>
+                <span style="--accent:var(--violet)"><svg><use href="#i-ai"/></svg><span class="lbl">AI Tools</span></span>
+                <span style="--accent:var(--blue)"><svg><use href="#i-apps"/></svg><span class="lbl">Apps</span></span>
+                <span style="--accent:var(--orange)"><svg><use href="#i-analyze"/></svg><span class="lbl">Analyze</span></span>
+                <span style="--accent:var(--green)"><svg><use href="#i-optimize"/></svg><span class="lbl">Optimize</span></span>
+                <span style="--accent:var(--pink)"><svg><use href="#i-status"/></svg><span class="lbl">Status</span></span>
+              </div>
+            </div>
+            <div class="window-body">
+              <div class="orb-video">
+                <video id="heroVideo" class="lazy-video" muted loop playsinline preload="none" poster="assets/media/scan.jpg" aria-label="Gon scanning: the orb gathers what it finds">
+                  <source data-src="assets/media/scan.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="scan-side">
+                <div class="eyebrow">Scanning</div>
+                <h3 id="scanTitle" style="margin-top:10px">App caches</h3>
+                <div class="path" id="scanPath">~/Library/Caches</div>
+                <div class="found-total"><span class="num" id="foundNum">24.5</span><span class="unit" id="foundUnit">GB found</span></div>
+                <div class="bar"><i id="foundBar"></i></div>
+                <div class="chips" id="chips"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= STATS ================= -->
+    <section style="padding-top:40px;padding-bottom:40px">
+      <div class="wrap reveal">
+        <div class="stats">
+          <div class="stat"><div class="v"><span data-count="22.6" data-decimals="1">0</span><small>GB</small></div><div class="l">found in one scan</div></div>
+          <div class="stat"><div class="v"><span data-count="8" data-decimals="0">0</span><small>s</small></div><div class="l">to scan caches and logs</div></div>
+          <div class="stat"><div class="v"><span data-count="6" data-decimals="0">0</span><small>tabs</small></div><div class="l">clean, uninstall, map, tune, watch</div></div>
+          <div class="stat"><div class="v"><span data-count="0" data-decimals="0">0</span><small>files</small></div><div class="l">removed without your review</div></div>
+        </div>
+        <p class="stats-note">Scan figures from a developer's Mac; yours will differ.</p>
+      </div>
+    </section>
+
+    <!-- ================= TOUR ================= -->
+    <section id="tour">
+      <div class="wrap">
+        <div class="section-head center reveal">
+          <div class="eyebrow">The tour</div>
+          <h2>Six tabs. One calm window.</h2>
+          <p>Each part of Gon has its own color, so you always know where you are. Everything runs on your Mac.</p>
+        </div>
+        <div class="tabs-grid">
+          <article class="card reveal" style="--accent:var(--cyan);--d:0s">
+            <div class="icon"><svg><use href="#i-sparkle"/></svg></div>
+            <h3>Clean</h3>
+            <p>Caches, logs, build leftovers and old installers, sorted into Safe, Review and Manual so you know what each one costs.</p>
+          </article>
+          <article class="card reveal" style="--accent:var(--violet);--d:.06s">
+            <div class="icon"><svg><use href="#i-ai"/></svg></div>
+            <h3>AI Tools</h3>
+            <p>Caches and old builds of AI coding tools, chats whose project is gone, and worktrees you already finished with.</p>
+          </article>
+          <article class="card reveal" style="--accent:var(--blue);--d:.12s">
+            <div class="icon"><svg><use href="#i-apps"/></svg></div>
+            <h3>Apps</h3>
+            <p>Uninstall an app with everything it left behind, tidy what starts at login, and see which apps have updates.</p>
+          </article>
+          <article class="card reveal" style="--accent:var(--orange);--d:0s">
+            <div class="icon"><svg><use href="#i-analyze"/></svg></div>
+            <h3>Analyze</h3>
+            <p>A treemap of the whole disk with the largest files beside it. Shared and cloned files are counted once.</p>
+          </article>
+          <article class="card reveal" style="--accent:var(--green);--d:.06s">
+            <div class="icon"><svg><use href="#i-optimize"/></svg></div>
+            <h3>Optimize</h3>
+            <p>Maintenance and quick fixes, with one password prompt for everything that needs one and a result for each task.</p>
+          </article>
+          <article class="card reveal" style="--accent:var(--pink);--d:.12s">
+            <div class="icon"><svg><use href="#i-status"/></svg></div>
+            <h3>Status</h3>
+            <p>Live CPU, memory, disk, network, battery and temperatures, every process — and why it is running.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CLEAN ================= -->
+    <section id="clean" style="--accent:var(--cyan)">
+      <div class="wrap split">
+        <div class="reveal">
+          <div class="eyebrow">Clean</div>
+          <h2 style="font-size:clamp(30px,3.7vw,46px);margin-top:14px;line-height:1.06">Every gigabyte <span class="accent-text">explained</span>,<br>before it goes.</h2>
+          <p style="color:var(--text-2);font-size:18px;margin-top:18px">Gon reads your caches, logs, developer tools and Downloads, then lays out what it found with what each item is and what happens if it goes.</p>
+          <ul class="feature-list">
+            <li><svg><use href="#i-check"/></svg><span><b>Safe, Review, Manual.</b> Safe items are ticked for you. Anything that might hold your data waits for your call.</span></li>
+            <li><svg><use href="#i-check"/></svg><span><b>Skipped while in use.</b> A cache stays put while the app that writes it is running.</span></li>
+            <li><svg><use href="#i-check"/></svg><span><b>Developers welcome.</b> Xcode build data, package caches, old simulators, and project build folders in your code folders. <span class="soon">More in the next update</span></span></li>
+            <li><svg><use href="#i-check"/></svg><span><b>Never clean this.</b> One click keeps a folder, or every folder with that name, out of every scan.</span></li>
+          </ul>
+        </div>
+        <div class="panel reveal" style="--d:.1s">
+          <div class="review-head">
+            <div>
+              <div class="eyebrow">Ready to clean</div>
+              <div class="big"><span id="cleanTotal">13.6</span><small>GB cleanable</small></div>
+            </div>
+            <div class="trash-btn" id="trashBtn">Move to Trash · <span id="trashSel">12.2 GB</span></div>
+          </div>
+          <div class="reveal-rows" id="reviewRows">
+            <div class="group">
+              <div class="group-title"><span class="gi"><svg><use href="#i-hammer"/></svg></span>Developer Tools<span class="sum">10.5 GB</span></div>
+              <div class="row" data-gb="8.4" data-tick="1"><span class="check"><svg><use href="#i-check"/></svg></span><div><div class="t">Xcode build data</div><div class="d">DerivedData of 12 projects · rebuilt on the next build</div></div><span class="tier safe">Safe</span><span class="s">8.4 GB</span></div>
+              <div class="row" data-gb="1.2" data-tick="1"><span class="check"><svg><use href="#i-check"/></svg></span><div><div class="t">npm cache</div><div class="d">Packages download again on the next install</div></div><span class="tier safe">Safe</span><span class="s">1.2 GB</span></div>
+              <div class="row" data-gb="0.9"><span class="check"><svg><use href="#i-check"/></svg></span><div><div class="t">storefront · node_modules</div><div class="d">~/Developer/storefront · not touched in 3 weeks</div></div><span class="tier review">Review</span><span class="s">0.9 GB</span></div>
+            </div>
+            <div class="group">
+              <div class="group-title"><span class="gi"><svg><use href="#i-box"/></svg></span>App Caches<span class="sum">2.6 GB</span></div>
+              <div class="row" data-gb="1.9" data-tick="1"><span class="check"><svg><use href="#i-check"/></svg></span><div><div class="t">Chrome · Code Cache</div><div class="d">~/Library/Application Support/Google/Chrome</div></div><span class="tier safe">Safe</span><span class="s">1.9 GB</span></div>
+              <div class="row" data-gb="0.7" data-tick="1"><span class="check"><svg><use href="#i-check"/></svg></span><div><div class="t">Slack · Cache</div><div class="d">Skipped while Slack is open</div></div><span class="tier safe">Safe</span><span class="s">0.7 GB</span></div>
+            </div>
+            <div class="group">
+              <div class="group-title"><span class="gi"><svg><use href="#i-trash"/></svg></span>Trash &amp; Downloads<span class="sum">0.7 GB</span></div>
+              <div class="row" data-gb="0.5"><span class="check"><svg><use href="#i-check"/></svg></span><div><div class="t">Xcode_26.xip</div><div class="d">Downloaded installer, unused for over 30 days</div></div><span class="tier review">Review</span><span class="s">0.5 GB</span></div>
+              <div class="row" data-gb="0"><span class="check off"></span><div><div class="t">Local Time Machine snapshots</div><div class="d">macOS frees them when space runs low</div></div><span class="tier manual">Manual</span><span class="s" style="color:var(--text-3)">—</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= MOTION ================= -->
+    <section style="padding-top:20px">
+      <div class="wrap">
+        <div class="section-head center reveal">
+          <div class="eyebrow">Recorded in the app</div>
+          <h2>Motion that tells you<br>what is happening.</h2>
+          <p>No spinners. Each progress screen is driven by real numbers — what was found, what was freed, which task is running.</p>
+        </div>
+        <div class="motion-grid">
+          <figure class="motion reveal" style="--d:0s;margin:0">
+            <video class="lazy-video" muted loop playsinline preload="none" poster="assets/media/scan.jpg"><source data-src="assets/media/scan.mp4" type="video/mp4"></video>
+            <figcaption><b>Scan</b><span>Motes drift in as space is found.</span></figcaption>
+          </figure>
+          <figure class="motion reveal" style="--d:.08s;margin:0">
+            <video class="lazy-video" muted loop playsinline preload="none" poster="assets/media/clean.jpg"><source data-src="assets/media/clean.mp4" type="video/mp4"></video>
+            <figcaption><b>Clean</b><span>The orb drains as items leave.</span></figcaption>
+          </figure>
+          <figure class="motion reveal" style="--d:.16s;margin:0">
+            <video class="lazy-video" muted loop playsinline preload="none" poster="assets/media/done.jpg"><source data-src="assets/media/done.mp4" type="video/mp4"></video>
+            <figcaption><b>Done</b><span>One bloom, then stillness.</span></figcaption>
+          </figure>
+          <figure class="motion reveal" style="--d:.24s;margin:0">
+            <video class="lazy-video" muted loop playsinline preload="none" poster="assets/media/optimize.jpg"><source data-src="assets/media/optimize.mp4" type="video/mp4"></video>
+            <figcaption><b>Optimize</b><span>Each task takes its turn in orbit.</span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ANALYZE ================= -->
+    <section id="analyze" style="--accent:var(--orange)">
+      <div class="wrap split flip">
+        <div class="reveal">
+          <div class="eyebrow">Analyze</div>
+          <h2 style="font-size:clamp(32px,4.4vw,52px);margin-top:14px;line-height:1.05">See where the space <span class="accent-text">really</span> went.</h2>
+          <p style="color:var(--text-2);font-size:18px;margin-top:18px">A treemap of every folder, sized as it is measured, with the largest files beside it. Open any block to go deeper; move what you don't need to the Trash from right there.</p>
+          <ul class="feature-list">
+            <li><svg><use href="#i-check"/></svg><span><b>Numbers that add up.</b> Hard-linked files and APFS clones count once, so folders never add up to more than the disk. <span class="soon">Next update</span></span></li>
+            <li><svg><use href="#i-check"/></svg><span><b>Measured as it goes.</b> Sizes stream in folder by folder; what can't be read yet shows as “at least”, never as a guess.</span></li>
+            <li><svg><use href="#i-check"/></svg><span><b>Opens where you left off.</b> The last map shows at once and is measured again behind it. <span class="soon">Next update</span></span></li>
+            <li><svg><use href="#i-check"/></svg><span><b>“Why is my disk full?”</b> One question, a few plain lines, and a button to the place that frees the space. <span class="soon">Next update</span></span></li>
+          </ul>
+        </div>
+        <div class="floating reveal" style="--d:.1s">
+          <div class="shot"><img src="assets/img/analyze.jpg" alt="Gon's Analyze tab: a treemap of a sample folder with Movies, Projects, Pictures and Downloads, and the largest files listed beside it" width="902" height="636" loading="lazy"></div>
+          <div class="panel disk-card" id="diskCard">
+            <div class="dc-head"><span class="tile"><svg><use href="#i-sparkle"/></svg></span><span class="dc-title">Why is my disk full?</span></div>
+            <div class="dc-sum" id="dcSum">Most of the space is in your home folder: Docker’s disk image and old project build folders.</div>
+            <ul id="dcList">
+              <li><span>Docker keeps 61 GB of images. Remove unused ones in Docker's settings.</span><span></span></li>
+              <li><span>Old build folders in your projects take 12.6 GB and come back on the next build.</span><span class="go">Open Clean</span></li>
+              <li><span>About 60 GB is macOS itself and snapshots, which macOS manages.</span><span></span></li>
+            </ul>
+            <div class="dc-foot"><svg width="12" height="12"><use href="#i-lock"/></svg>Your choice of assistant · can be wrong</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= APPS ================= -->
+    <section id="apps" style="--accent:var(--blue)">
+      <div class="wrap split">
+        <div class="reveal">
+          <div class="eyebrow">Apps</div>
+          <h2 style="font-size:clamp(32px,4.4vw,52px);margin-top:14px;line-height:1.05">Gone means <span class="accent-text">gone</span>.</h2>
+          <p style="color:var(--text-2);font-size:18px;margin-top:18px">Dragging an app to the Trash leaves its settings, caches and helpers behind. Gon finds them, shows how it knows, and removes them with the app.</p>
+          <ul class="feature-list">
+            <li><svg><use href="#i-check"/></svg><span><b>Evidence for every file.</b> Matched by bundle ID, developer team, installer receipt or the app's helpers — never by a guess alone.</span></li>
+            <li><svg><use href="#i-check"/></svg><span><b>Leftovers of apps you already deleted</b>, found on their own and grouped by app.</span></li>
+            <li><svg><use href="#i-check"/></svg><span><b>One password, then the Trash.</b> Files only an administrator can move go in one prompt — into your Trash, so you can put them back.</span></li>
+            <li><svg><use href="#i-check"/></svg><span><b>Startup items and updates</b> in the same place, including apps from Homebrew and the App Store.</span></li>
+          </ul>
+        </div>
+        <div class="panel leftover reveal" style="--d:.1s">
+          <div class="lo-app" style="--c1:#5b8cff;--c2:#3b5bdb">
+            <div class="appicon">Z</div>
+            <div><div class="n">Zoom</div><div class="m">Deleted 4 months ago</div>
+              <div class="evidence"><span>Bundle ID</span><span>Team ID</span><span>Installer receipt</span></div></div>
+            <div class="size">312 MB</div>
+          </div>
+          <div class="lo-files">
+            <div><span>~/Library/Application Support/zoom.us</span><span>288 MB</span></div>
+            <div><span>~/Library/Caches/us.zoom.xos</span><span>21 MB</span></div>
+            <div><span>~/Library/Preferences/us.zoom.xos.plist</span><span>12 KB</span></div>
+            <div><span>/Library/PrivilegedHelperTools/us.zoom.ZoomDaemon</span><span>3 MB</span></div>
+          </div>
+          <div class="lo-app" style="--c1:#c084fc;--c2:#7c3aed">
+            <div class="appicon">F</div>
+            <div><div class="n">Figma Agent</div><div class="m">Launch agent of an app that is gone</div>
+              <div class="evidence"><span>Launch item</span><span>Points into the app</span></div></div>
+            <div class="size">48 MB</div>
+          </div>
+          <div class="lo-app" style="--c1:#34d399;--c2:#0f766e">
+            <div class="appicon">S</div>
+            <div><div class="n">Spotify</div><div class="m">Cache · rebuilt if you install it again</div>
+              <div class="evidence"><span>Bundle ID</span></div></div>
+            <div class="size">1.1 GB</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= OPTIMIZE + STATUS ================= -->
+    <section id="optimize" style="--accent:var(--green)">
+      <div class="wrap split flip">
+        <div class="reveal">
+          <div class="eyebrow">Optimize</div>
+          <h2 style="font-size:clamp(32px,4.4vw,52px);margin-top:14px;line-height:1.05">Upkeep without<br><span class="accent-text">the folklore</span>.</h2>
+          <p style="color:var(--text-2);font-size:18px;margin-top:18px">Maintenance that matters on a modern Mac. Each task says what it did, or why it skipped.</p>
+          <ul class="feature-list">
+            <li><svg><use href="#i-check"/></svg><span><b>One prompt</b> for every task that needs an administrator.</span></li>
+            <li><svg><use href="#i-check"/></svg><span><b>Checked first.</b> Databases are verified before compacting; Spotlight is rebuilt only when a test search is slow. <span class="soon">Next update</span></span></li>
+            <li><svg><use href="#i-check"/></svg><span><b>Quick fixes</b> for a stuck Dock, Finder, Spotlight, menu bar or notifications.</span></li>
+          </ul>
+        </div>
+        <div class="panel opt-panel reveal" style="--d:.1s">
+          <div class="opt-orbit">
+            <video class="lazy-video" muted loop playsinline preload="none" poster="assets/media/optimize.jpg"><source data-src="assets/media/optimize.mp4" type="video/mp4"></video>
+          </div>
+          <div class="tasks" id="tasks">
+            <div class="task"><span class="dot"><svg><use href="#i-check"/></svg></span><span class="tx"><span class="nm">Rebuild the “Open With” database</span><span class="st">Waiting</span></span></div>
+            <div class="task"><span class="dot"><svg><use href="#i-check"/></svg></span><span class="tx"><span class="nm">Compact Mail and Messages databases</span><span class="st">Waiting</span></span></div>
+            <div class="task"><span class="dot"><svg><use href="#i-check"/></svg></span><span class="tx"><span class="nm">Clear font caches</span><span class="st">Waiting</span></span></div>
+            <div class="task"><span class="dot"><svg><use href="#i-check"/></svg></span><span class="tx"><span class="nm">Reset Quick Look cache</span><span class="st">Waiting</span></span></div>
+            <div class="task"><span class="dot"><svg><use href="#i-check"/></svg></span><span class="tx"><span class="nm">Refresh the Dock</span><span class="st">Waiting</span></span></div>
+            <div class="task"><span class="dot"><svg><use href="#i-check"/></svg></span><span class="tx"><span class="nm">Flush DNS cache</span><span class="st">Waiting</span></span></div>
+            <div class="task"><span class="dot"><svg><use href="#i-check"/></svg></span><span class="tx"><span class="nm">Clear old temporary items</span><span class="st">Waiting</span></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="status" style="--accent:var(--pink)">
+      <div class="wrap split">
+        <div class="reveal">
+          <div class="eyebrow">Status &amp; menu bar</div>
+          <h2 style="font-size:clamp(32px,4.4vw,52px);margin-top:14px;line-height:1.05">Know what your<br>Mac is <span class="accent-text">doing</span>.</h2>
+          <p style="color:var(--text-2);font-size:18px;margin-top:18px">A live dashboard and a menu bar companion, read straight from macOS and light enough to leave open all day.</p>
+          <ul class="feature-list">
+            <li><svg><use href="#i-check"/></svg><span><b>Why is this running?</b> Who started a process, what keeps it alive and which ports it listens on.</span></li>
+            <li><svg><use href="#i-check"/></svg><span><b>A heads-up</b> when one process keeps a core busy for minutes. <span class="soon">Next update</span></span></li>
+            <li><svg><use href="#i-check"/></svg><span><b>In the menu bar:</b> live metrics, top processes, eject disks, Keep Awake, Clean Screen.</span></li>
+          </ul>
+        </div>
+        <div class="reveal" style="--d:.1s">
+          <div class="menubar"><span>Fri 23 Oct</span><span id="clock">09:41</span><svg class="glyph" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path fill="currentColor" d="M12 3.6c.4 4.3 2.2 6.6 8.4 8.4-6.2 1.8-8 4.1-8.4 8.4-.4-4.3-2.2-6.6-8.4-8.4 6.2-1.8 8-4.1 8.4-8.4Z"/></svg></div>
+          <div class="panel menu-panel">
+            <div class="tiles">
+              <div class="tile-m"><div class="k">CPU</div><div class="v" id="mCpu">18%</div><svg viewBox="0 0 100 34" preserveAspectRatio="none"><path id="sCpu" fill="none" stroke="var(--pink)" stroke-width="2" vector-effect="non-scaling-stroke"/></svg></div>
+              <div class="tile-m"><div class="k">Memory</div><div class="v" id="mMem">11.2 GB</div><svg viewBox="0 0 100 34" preserveAspectRatio="none"><path id="sMem" fill="none" stroke="var(--violet)" stroke-width="2" vector-effect="non-scaling-stroke"/></svg></div>
+              <div class="tile-m"><div class="k">Network</div><div class="v" id="mNet">2.4 MB/s</div><svg viewBox="0 0 100 34" preserveAspectRatio="none"><path id="sNet" fill="none" stroke="var(--sky)" stroke-width="2" vector-effect="non-scaling-stroke"/></svg></div>
+              <div class="tile-m"><div class="k">Disk</div><div class="v">82 GB free</div><svg viewBox="0 0 100 34" preserveAspectRatio="none"><rect x="0" y="13" width="100" height="8" rx="4" fill="rgba(255,255,255,.08)"/><rect x="0" y="13" width="83" height="8" rx="4" fill="var(--orange)"/></svg></div>
+            </div>
+            <div class="procs">
+              <div class="eyebrow" style="padding:4px 8px 6px;font-size:10.5px">Top processes</div>
+              <div class="proc"><span>Xcode</span><span id="p1">42%</span></div>
+              <div class="proc"><span>Safari</span><span id="p2">12%</span></div>
+              <div class="proc"><span>WindowServer</span><span id="p3">8%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SAFETY ================= -->
+    <section id="safety">
+      <div class="wrap">
+        <div class="section-head center reveal">
+          <div class="eyebrow">Safety</div>
+          <h2>Built to be trusted<br>with your files.</h2>
+          <p>A cleaner is only as good as what it refuses to touch. Every removal in Gon goes through one gate.</p>
+        </div>
+        <div class="safety-grid">
+          <article class="card reveal" style="--d:0s"><div class="icon"><svg><use href="#i-eye"/></svg></div><h3>You review first</h3><p>Nothing moves until you press Move to Trash. Deep links and automation can scan, never remove.</p></article>
+          <article class="card reveal" style="--d:.06s"><div class="icon"><svg><use href="#i-trash"/></svg></div><h3>Trash by default</h3><p>Even files that need an administrator go to your Trash, so a change can always be undone.</p></article>
+          <article class="card reveal" style="--d:.12s"><div class="icon"><svg><use href="#i-lock"/></svg></div><h3>Protected places</h3><p>System folders, Keychains, Mail, Messages, SSH keys, sign-in files and your documents are never touched.</p></article>
+          <article class="card reveal" style="--d:0s"><div class="icon"><svg><use href="#i-refresh"/></svg></div><h3>Checked at the last moment</h3><p>If a file was swapped or replaced after the scan, Gon leaves it alone and tells you. <span class="soon">Next update</span></p></article>
+          <article class="card reveal" style="--d:.06s"><div class="icon"><svg><use href="#i-list"/></svg></div><h3>Every file on record</h3><p>A log of each operation — and, next, of every file: when it went, how, and how big it was.</p></article>
+          <article class="card reveal" style="--d:.12s"><div class="icon"><svg><use href="#i-shield"/></svg></div><h3>Caches macOS needs</h3><p>Sync, security and sign-in caches stay put — and next, fonts, Spotlight and the system's own model caches too. <span class="soon">Next update</span></p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ASSISTANT ================= -->
+    <section id="assistant" style="--accent:var(--violet)">
+      <div class="wrap split flip">
+        <div class="reveal">
+          <div class="eyebrow">Assistant · optional</div>
+          <h2 style="font-size:clamp(32px,4.4vw,52px);margin-top:14px;line-height:1.05">Ask what something is.<br><span class="accent-text">Only when you want to.</span></h2>
+          <p style="color:var(--text-2);font-size:18px;margin-top:18px">Gon ships no model and no API key. If you already have an assistant on your Mac, Gon can ask it what an unfamiliar folder is and how to free its space — one click, one question.</p>
+          <div class="providers">
+            <span class="lead">Apple Intelligence · on device</span><span>Ollama</span><span>LM Studio</span><span>Any local server</span><span>Your Claude Code, Codex or Gemini sign-in</span>
+          </div>
+          <ul class="feature-list" style="margin-top:26px">
+            <li><svg><use href="#i-check"/></svg><span><b>You see what leaves.</b> A cloud assistant shows the exact details first, with your name and home folder replaced.</span></li>
+            <li><svg><use href="#i-check"/></svg><span><b>Secrets stay home.</b> When Gon reviews a list, data of password managers, wallets and notes apps is never sent.</span></li>
+            <li><svg><use href="#i-check"/></svg><span><b>Ask from Finder.</b> Right-click any file › Services › Ask Gon About This. <span class="soon">Next update</span></span></li>
+          </ul>
+        </div>
+        <div class="reveal" style="--d:.1s;display:grid;grid-template-columns:minmax(0,1fr);gap:16px;justify-items:center">
+          <div class="panel consent" style="width:min(440px,100%)">
+            <div class="c-head"><span class="tile"><svg><use href="#i-cloud"/></svg></span><div><div style="font-weight:600">Send to your assistant?</div><div style="font-size:12.5px;color:var(--text-3)">Through your own sign-in</div></div></div>
+            <p style="margin:12px 0 0;font-size:14px;color:var(--text-2)">These details about “Logi” leave this Mac. Nothing else is sent.</p>
+<pre>{
+  "name": "Logi",
+  "path": "~/Library/Application Support/Logi",
+  "size": "1.29 GB",
+  "type": "folder"
+}</pre>
+            <div class="c-btns"><span class="btn btn-glass btn-small">Cancel</span><span class="btn btn-primary btn-small" style="background:linear-gradient(180deg,#c4b5fd,#8b5cf6);color:#1b0b3a;box-shadow:0 10px 26px -8px rgba(167,139,250,.8)">Send</span></div>
+          </div>
+          <div class="finder" aria-label="Finder's context menu with Ask Gon About This">
+            <div class="finder-menu">
+              <div>Open</div><div>Get Info</div><div>Rename</div><div>Compress “node_modules”</div><div class="sep"></div>
+              <div>Copy</div><div class="dim">Quick Actions <span>›</span></div>
+              <div class="hl">Services <span>›</span></div>
+            </div>
+            <div class="finder-menu finder-sub">
+              <div class="hl"><span>Ask Gon About This</span></div>
+              <div>New Terminal at Folder</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PRIVACY BAND ================= -->
+    <section class="band">
+      <div class="wrap band-inner reveal">
+        <div><div class="b">No account.</div><p>Download, open, scan. That's it.</p></div>
+        <div><div class="b">No tracking.</div><p>Gon collects nothing about you or your files.</p></div>
+        <div><div class="b">Native.</div><p>SwiftUI, made for macOS 14 and later.</p></div>
+      </div>
+    </section>
+
+    <!-- ================= DOWNLOAD ================= -->
+    <section id="download" class="download">
+      <div class="wrap">
+        <img class="big-icon reveal" src="assets/img/icon-512.png" alt="" width="180" height="180" loading="lazy">
+        <h2 class="reveal" style="--d:.08s">Give your Mac<br><span class="shine">some room.</span></h2>
+        <p class="sub reveal" style="--d:.16s">Free for macOS 14 or later on Apple silicon. Gon keeps itself up to date.</p>
+        <div class="hero-cta reveal" style="--d:.24s">
+          <a class="btn btn-primary js-download" href="https://github.com/caalabs/gon-app/releases/latest"><svg><use href="#i-apple"/></svg><span class="js-download-label">Download Gon</span></a>
+          <a class="btn btn-glass" href="https://github.com/caalabs/gon-app/releases">Release notes</a>
+        </div>
+        <div class="install">
+          <div class="step reveal" style="--d:0s"><div class="n">1</div><h4>Open the disk image</h4><p>Drag Gon into Applications.</p></div>
+          <div class="step reveal" style="--d:.06s"><div class="n">2</div><h4>Allow the first launch</h4><p>Gon isn't notarized by Apple yet. If macOS stops it, open System Settings › Privacy &amp; Security and choose <kbd>Open Anyway</kbd>.</p></div>
+          <div class="step reveal" style="--d:.12s"><div class="n">3</div><h4>Give it the full view</h4><p>For complete scans, turn on Full Disk Access for Gon in the same settings pane.</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© 2026 CaaLabs</span>
+      <nav>
+        <a href="https://github.com/caalabs/gon-app/releases">Releases</a>
+        <a href="appcast.xml">Update feed</a>
+        <a href="#top">Back to top</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="assets/js/site.js" defer></script>
+</body>
+</html>
