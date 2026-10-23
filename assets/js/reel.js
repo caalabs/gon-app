@@ -464,12 +464,6 @@
   const openBtns = [...document.querySelectorAll('.js-film')];
   if (film && openBtns.length) {
     const v = document.getElementById('filmVideo');
-    // Offer the film only once it is there; the hero then swaps "Take the tour" for it.
-    fetch('assets/media/film.mp4', { method: 'HEAD' }).then(r => {
-      if (!r.ok) return;
-      openBtns.forEach(b => { b.hidden = false; });
-      document.querySelectorAll('.js-no-film').forEach(b => { b.hidden = true; });
-    }).catch(() => {});
     openBtns.forEach(b => b.addEventListener('click', () => {
       const src = v.querySelector('source[data-src]');
       if (src) { src.src = src.dataset.src; src.removeAttribute('data-src'); v.load(); }
