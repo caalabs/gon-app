@@ -26,6 +26,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="stylesheet" href="assets/css/reel.css">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -49,6 +50,7 @@
       <symbol id="i-box" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5v-9Z"/><path d="M3.5 7.5 12 12l8.5-4.5M12 12v9"/></g></symbol>
       <symbol id="i-hammer" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m13.5 7.5-9 9a1.8 1.8 0 0 0 2.5 2.5l9-9"/><path d="m11.5 5.5 3-3 7 7-3 3-1.5-1.5-2 2-3.5-3.5 2-2-2-2Z"/></g></symbol>
       <symbol id="i-down" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></g></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.5v13a1 1 0 0 0 1.5.86l10.8-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"/></symbol>
       <symbol id="i-apple" viewBox="0 0 24 24"><path fill="currentColor" d="M16.4 12.7c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.5-1-2.5-3.9ZM14 5.6c.7-.8 1.1-1.9 1-3-.9 0-2.1.6-2.8 1.4-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.5 2.8-1.3Z"/></symbol>
     </defs>
   </svg>
@@ -89,39 +91,146 @@
           <a class="btn btn-primary js-download" href="https://github.com/caalabs/gon-app/releases/latest">
             <svg><use href="#i-apple"/></svg>Download for Mac
           </a>
-          <a class="btn btn-glass" href="#tour">Take the tour</a>
+          <button class="btn btn-glass js-film" type="button" hidden><svg><use href="#i-play"/></svg>Watch the film</button>
+          <a class="btn btn-glass js-no-film" href="#tour">Take the tour</a>
         </div>
         <p class="hero-meta reveal" style="--d:.6s"><b class="js-version">Free</b> · Apple silicon · No account, no tracking</p>
 
-        <div class="stage reveal" style="--d:.7s">
-          <div class="window" id="heroWindow" style="--accent: var(--cyan)">
-            <div class="window-bar">
+      </div>
+    </section>
+
+    <!-- ================= SHOWREEL ================= -->
+    <section class="reel-wrap" aria-label="Gon in motion">
+      <div class="wrap">
+        <div class="reel reveal" id="reel" style="--d:.6s">
+          <div class="reel-halo"></div>
+          <div class="reel-stage" id="reelStage" aria-hidden="true">
+            <div class="r-bar">
               <div class="lights"><i></i><i></i><i></i></div>
-              <div class="tabs" id="heroTabs" aria-hidden="true">
-                <span class="on" style="--accent:var(--cyan)"><svg><use href="#i-sparkle"/></svg><span class="lbl">Clean</span></span>
-                <span style="--accent:var(--violet)"><svg><use href="#i-ai"/></svg><span class="lbl">AI Tools</span></span>
-                <span style="--accent:var(--blue)"><svg><use href="#i-apps"/></svg><span class="lbl">Apps</span></span>
-                <span style="--accent:var(--orange)"><svg><use href="#i-analyze"/></svg><span class="lbl">Analyze</span></span>
-                <span style="--accent:var(--green)"><svg><use href="#i-optimize"/></svg><span class="lbl">Optimize</span></span>
-                <span style="--accent:var(--pink)"><svg><use href="#i-status"/></svg><span class="lbl">Status</span></span>
+              <div class="r-tabs" id="rTabs">
+                <div class="r-pill" id="rPill"></div>
+                <span data-tab="clean"><svg><use href="#i-sparkle"/></svg>Clean</span>
+                <span data-tab="ai"><svg><use href="#i-ai"/></svg>AI Tools</span>
+                <span data-tab="apps"><svg><use href="#i-apps"/></svg>Apps</span>
+                <span data-tab="analyze"><svg><use href="#i-analyze"/></svg>Analyze</span>
+                <span data-tab="optimize"><svg><use href="#i-optimize"/></svg>Optimize</span>
+                <span data-tab="status"><svg><use href="#i-status"/></svg>Status</span>
               </div>
             </div>
-            <div class="window-body">
-              <div class="orb-video">
-                <video id="heroVideo" class="lazy-video" muted loop playsinline preload="none" poster="assets/media/scan.jpg" aria-label="Gon scanning: the orb gathers what it finds">
-                  <source data-src="assets/media/scan.mp4" type="video/mp4">
-                </video>
+            <div class="r-scene">
+              <!-- Film only: title cards -->
+              <div class="r-layer r-card" id="sIntro">
+                <img src="assets/img/icon-512.png" alt="">
+                <div class="r-card-t">Gon</div>
+                <div class="r-card-s">Your Mac, <span class="shine">light again.</span></div>
               </div>
-              <div class="scan-side">
-                <div class="eyebrow">Scanning</div>
-                <h3 id="scanTitle" style="margin-top:10px">App caches</h3>
-                <div class="path" id="scanPath">~/Library/Caches</div>
-                <div class="found-total"><span class="num" id="foundNum">24.5</span><span class="unit" id="foundUnit">GB found</span></div>
-                <div class="bar"><i id="foundBar"></i></div>
-                <div class="chips" id="chips"></div>
+              <div class="r-layer r-card" id="sOutro">
+                <img src="assets/img/icon-512.png" alt="">
+                <div class="r-card-s">Free for macOS 14 or later</div>
+                <div class="r-card-u">caalabs.github.io/gon-app</div>
               </div>
+              <!-- 1 · Scan -->
+              <div class="r-layer" id="sScan">
+                <div class="r-orb" id="rScanOrb" style="left:110px;top:70px;width:440px;height:440px">
+                  <video muted playsinline preload="auto" poster="assets/media/reel-scan.jpg" src="assets/media/reel-scan.mp4"></video>
+                </div>
+                <div id="rScanSide">
+                  <div class="r-eyebrow">Scanning</div>
+                  <div class="r-h" id="rScanTitle">App caches</div>
+                  <div class="r-mono" id="rScanPath">~/Library/Caches</div>
+                  <div class="r-found"><span class="r-num" id="rFound">0.0</span><span class="u">GB found</span></div>
+                  <div class="r-bar2"><i id="rFoundBar"></i></div>
+                  <div class="r-chips" id="rChips"></div>
+                </div>
+              </div>
+              <!-- 2 · Review -->
+              <div class="r-layer" id="sReview">
+                <div id="rReview">
+                  <div class="rr-head">
+                    <div><div class="r-eyebrow">Ready to clean</div><div class="big"><span id="rTotal">7.8</span><small>GB cleanable</small></div></div>
+                    <div class="rr-btn" id="rBtn">Move to Trash · <span id="rSel">0.0 GB</span><span class="rip"></span></div>
+                  </div>
+                  <div class="rr-group">
+                    <div class="rr-gt"><span class="gi"><svg><use href="#i-hammer"/></svg></span>Developer Tools</div>
+                    <div class="rr-row" data-gb="3.1" data-safe="1"><span class="rr-check"><span class="fill"></span><svg><use href="#i-check"/></svg></span><div><div class="t">Xcode build data</div><div class="d">DerivedData of 12 projects · rebuilt on the next build</div></div><span class="r-tier safe">Safe</span><span class="s">3.1 GB</span></div>
+                    <div class="rr-row" data-gb="1.2" data-safe="1"><span class="rr-check"><span class="fill"></span><svg><use href="#i-check"/></svg></span><div><div class="t">npm cache</div><div class="d">Packages download again on the next install</div></div><span class="r-tier safe">Safe</span><span class="s">1.2 GB</span></div>
+                    <div class="rr-row" data-gb="0.9"><span class="rr-check"><span class="fill"></span><svg><use href="#i-check"/></svg></span><div><div class="t">storefront · node_modules</div><div class="d">Not touched in 3 weeks</div></div><span class="r-tier review">Review</span><span class="s">0.9 GB</span></div>
+                  </div>
+                  <div class="rr-group">
+                    <div class="rr-gt"><span class="gi"><svg><use href="#i-box"/></svg></span>App Caches</div>
+                    <div class="rr-row" data-gb="1.4" data-safe="1"><span class="rr-check"><span class="fill"></span><svg><use href="#i-check"/></svg></span><div><div class="t">Chrome · Code Cache</div><div class="d">Rebuilt as you browse</div></div><span class="r-tier safe">Safe</span><span class="s">1.4 GB</span></div>
+                    <div class="rr-row" data-gb="0.7" data-safe="1"><span class="rr-check"><span class="fill"></span><svg><use href="#i-check"/></svg></span><div><div class="t">Slack · Cache</div><div class="d">Skipped while Slack is open</div></div><span class="r-tier safe">Safe</span><span class="s">0.7 GB</span></div>
+                    <div class="rr-row" data-gb="0.5"><span class="rr-check"><span class="fill"></span><svg><use href="#i-check"/></svg></span><div><div class="t">Xcode_26.xip</div><div class="d">Downloaded installer, unused for over 30 days</div></div><span class="r-tier review">Review</span><span class="s">0.5 GB</span></div>
+                  </div>
+                </div>
+              </div>
+              <!-- 3 · Clean -->
+              <div class="r-layer" id="sClean">
+                <div class="r-orb" id="rCleanOrb"><video muted playsinline preload="auto" poster="assets/media/reel-clean.jpg" src="assets/media/reel-clean.mp4"></video></div>
+                <div id="rCleanList"><span>Xcode build data</span><span>npm cache</span><span>Chrome · Code Cache</span><span>Slack · Cache</span></div>
+              </div>
+              <!-- 4 · Done -->
+              <div class="r-layer" id="sDone">
+                <div class="r-orb" id="rDoneOrb"><video muted playsinline preload="auto" poster="assets/media/reel-done.jpg" src="assets/media/reel-done.mp4"></video></div>
+                <div id="rDoneText"><div class="r-num"><span id="rFreed">0.0</span><small>GB freed</small></div><p>Four items in the Trash. Nothing you needed.</p></div>
+              </div>
+              <!-- 5 · Analyze -->
+              <div class="r-layer" id="sAnalyze">
+                <div id="rMap"></div>
+                <div id="rDisk">
+                  <div class="hd"><span class="tile"><svg><use href="#i-sparkle"/></svg></span>Why is my disk full?</div>
+                  <div id="rDiskSum"></div>
+                  <ul>
+                    <li><span>Docker keeps 61 GB of images. Prune unused ones in Docker.</span><span></span></li>
+                    <li><span>Old project builds take 12 GB and come back on the next build.</span><span class="go">Open Clean</span></li>
+                    <li><span>Photos can keep originals in iCloud: Optimize Storage.</span><span></span></li>
+                  </ul>
+                </div>
+              </div>
+              <!-- 6 · Apps -->
+              <div class="r-layer" id="sApps">
+                <div id="rApp"><div class="ic">Z</div><p>Zoom</p></div>
+                <div id="rTrashWrap"><span id="rBadge">5</span><p>In your Trash<br><small>Put back any time</small></p></div>
+                <svg id="rTrash" viewBox="0 0 86 96" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path id="rLid" d="M8 20h70M32 20v-8h22v8"/><path d="M16 20l5 66h44l5-66"/><path d="M35 36v36M51 36v36"/></svg>
+                <div id="rLeft">
+                  <div class="lh"><div class="r-h">Zoom left behind</div><div class="tot"><span id="rLeftTot">0</span> MB</div></div>
+                  <div class="r-evid"><span>Bundle ID</span><span>Team ID</span><span>Installer receipt</span></div>
+                  <div class="r-file" data-mb="288"><span>~/Library/Application Support/zoom.us</span><span>288 MB</span></div>
+                  <div class="r-file" data-mb="21"><span>~/Library/Caches/us.zoom.xos</span><span>21 MB</span></div>
+                  <div class="r-file" data-mb="3"><span>/Library/PrivilegedHelperTools/us.zoom…</span><span>3 MB</span></div>
+                  <div class="r-file" data-mb="0"><span>~/Library/Preferences/us.zoom.xos.plist</span><span>12 KB</span></div>
+                  <div id="rGone"><svg><use href="#i-check"/></svg>Removed with the app · in your Trash</div>
+                </div>
+              </div>
+              <!-- 7 · Status -->
+              <div class="r-layer" id="sStatus">
+                <div id="rHealth">
+                  <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="9"/><circle id="rHealthArc" cx="60" cy="60" r="52" fill="none" stroke="url(#rg)" stroke-width="9" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7"/><defs><linearGradient id="rg" x1="0" x2="1"><stop offset="0" stop-color="#f472b6"/><stop offset="1" stop-color="#e879f9"/></linearGradient></defs></svg>
+                  <div class="v"><b id="rHealthNum">0</b><span>Healthy</span></div>
+                </div>
+                <div id="rTiles">
+                  <div class="r-tile"><div class="k">CPU</div><div class="v"><span data-to="23">0</span>%</div><svg viewBox="0 0 250 44"><path class="r-spark" d="M0.0,33.0 L20.0,30.8 L40.0,34.1 L60.0,24.2 L80.0,27.5 L100.0,15.4 L120.0,22.0 L140.0,19.8 L160.0,28.6 L180.0,13.2 L200.0,20.9 L220.0,17.6 L250.0,24.2" stroke="#f472b6" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                  <div class="r-tile"><div class="k">Memory</div><div class="v"><span data-to="11.2" data-dec="1">0</span> GB</div><svg viewBox="0 0 250 44"><path class="r-spark" d="M0.0,22.0 L25.0,20.9 L50.0,19.8 L75.0,20.9 L100.0,18.7 L125.0,17.6 L150.0,18.7 L175.0,16.5 L200.0,17.6 L225.0,16.5 L250.0,15.4" stroke="#a78bfa" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                  <div class="r-tile"><div class="k">Network</div><div class="v"><span data-to="4.6" data-dec="1">0</span> MB/s</div><svg viewBox="0 0 250 44"><path class="r-spark" d="M0.0,37.4 L20.0,33.0 L40.0,36.3 L60.0,17.6 L80.0,30.8 L100.0,8.8 L120.0,26.4 L140.0,33.0 L160.0,13.2 L180.0,28.6 L200.0,22.0 L220.0,35.2 L250.0,19.8" stroke="#38bdf8" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                  <div class="r-tile"><div class="k">Temperature</div><div class="v"><span data-to="48">0</span>°C</div><svg viewBox="0 0 250 44"><path class="r-spark" d="M0.0,28.6 L25.0,27.5 L50.0,26.4 L75.0,26.4 L100.0,24.2 L125.0,25.3 L150.0,23.1 L175.0,24.2 L200.0,22.0 L225.0,23.1 L250.0,22.0" stroke="#fb923c" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                </div>
+                <div id="rProcs">
+                  <div class="r-proc hd"><span>Process</span><span>CPU</span><span>Memory</span></div>
+                  <div class="r-proc hi"><span>Xcode — indexing</span><span>142%</span><span>3.1 GB</span></div>
+                  <div class="r-proc"><span>Safari</span><span>12%</span><span>1.8 GB</span></div>
+                  <div class="r-proc"><span>WindowServer</span><span>8%</span><span>620 MB</span></div>
+                </div>
+              </div>
+              <canvas id="rFx" width="1120" height="608"></canvas>
+              <div id="rGlare"></div>
+              <svg id="rCursor" viewBox="0 0 26 32"><path d="M2 2v24l6.5-6 4.2 9.4 4.4-2-4.1-9.2H22Z" fill="#fff" stroke="#000" stroke-width="1.5" stroke-linejoin="round"/></svg>
             </div>
           </div>
+        </div>
+        <p class="reel-caption" id="reelCaption" aria-live="polite">Gon finds what your Mac quietly gave away.</p>
+        <div class="reel-nav" id="reelNav"></div>
+        <div class="reel-actions">
+          <button class="btn btn-glass js-film" id="filmOpen" type="button" hidden><svg><use href="#i-play"/></svg>Watch the film</button>
         </div>
       </div>
     </section>
@@ -491,6 +600,13 @@
     </div>
   </footer>
 
+  <div class="film" id="film" role="dialog" aria-label="Gon film">
+    <video id="filmVideo" controls playsinline preload="none" poster="assets/media/film.jpg"><source data-src="assets/media/film.mp4" type="video/mp4"></video>
+    <button class="btn btn-glass" id="filmClose" type="button">Close</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="assets/js/site.js" defer></script>
+  <script src="assets/js/reel.js" defer></script>
 </body>
 </html>

@@ -52,72 +52,15 @@
     videos.forEach(v => io.observe(v));
   }
 
-  // ---------- Hero: tilt the window flat as it scrolls into view ----------
-  const win = $('#heroWindow');
+  // ---------- Hero: the icon leans toward the pointer ----------
   const icon = $('#heroIcon');
-  if (win && !reduce) {
-    let ticking = false;
-    const update = () => {
-      ticking = false;
-      const r = win.getBoundingClientRect();
-      const p = Math.min(1, Math.max(0, 1 - (r.top - innerHeight * .25) / (innerHeight * .6)));
-      win.style.setProperty('--tilt', `${14 * (1 - p)}deg`);
-      win.style.setProperty('--lift', `${30 * (1 - p)}px`);
-      win.style.setProperty('--zoom', `${.96 + .04 * p}`);
-    };
-    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
-    update();
-    addEventListener('pointermove', e => {
-      const x = (e.clientX / innerWidth - .5), y = (e.clientY / innerHeight - .5);
-      icon.style.transform = `rotateY(${x * 18}deg) rotateX(${-y * 18}deg) translateZ(0)`;
-    }, { passive: true });
-  }
+  if (icon && !reduce) addEventListener('pointermove', e => {
+    const x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5;
+    icon.style.transform = `rotateY(${x * 16}deg) rotateX(${-y * 16}deg)`;
+  }, { passive: true });
 
-  // ---------- Hero: the panel reads the recorded scan, so its numbers match the orb ----------
-  // The movie is one 8 s cycle of the app's simulated scan (0 → 24.5 GB), recorded starting at 5.28 GB.
-  const CYCLE = 8, TOTAL = 24.5, START = 5.28 / 24.5;
-  const phases = [
-    { title: 'App caches', path: '~/Library/Caches', chip: 'App Caches', gb: 4.8 },
-    { title: 'Browsers', path: '~/Library/Caches/com.apple.Safari', chip: 'Browsers', gb: 1.6 },
-    { title: 'Developer tools', path: '~/Library/Developer/Xcode/DerivedData', chip: 'Developer', gb: 12.4 },
-    { title: 'Logs & crash reports', path: '~/Library/Logs', chip: 'Logs', gb: 0.6 },
-    { title: 'Trash & Downloads', path: '~/Downloads', chip: 'Old installers', gb: 5.1 },
-  ];
-  const num = $('#foundNum'), bar = $('#foundBar'), chips = $('#chips');
-  const title = $('#scanTitle'), path = $('#scanPath'), hv = $('#heroVideo');
-  const showFound = found => {
-    num.textContent = fmt(found);
-    bar.style.width = `${(found / TOTAL) * 100}%`;
-    let acc = 0, shown = 0;
-    for (const [k, ph] of phases.entries()) {
-      if (found <= acc && k > 0) break;
-      const part = Math.min(ph.gb, Math.max(0, found - acc));
-      let chip = chips.children[k];
-      if (!chip) {
-        chip = document.createElement('span');
-        chip.className = 'chip';
-        chip.innerHTML = `${ph.chip} · <b></b>`;
-        chips.appendChild(chip);
-      }
-      chip.querySelector('b').textContent = fmt(part) + ' GB';
-      title.textContent = ph.title;
-      path.textContent = ph.path;
-      acc += ph.gb; shown = k + 1;
-    }
-    while (chips.children.length > shown) chips.lastChild.remove();
-  };
-  if (num) {
-    if (reduce || !hv) showFound(TOTAL);
-    else {
-      showFound(TOTAL * START);
-      const follow = () => {
-        if (!hv.paused && hv.readyState >= 2) showFound(TOTAL * ((START + hv.currentTime / CYCLE) % 1));
-        requestAnimationFrame(follow);
-      };
-      requestAnimationFrame(follow);
-    }
-
-    // The page's glow takes the color of the section in view, as each tab in the app has its own.
+  // ---------- The page's glow takes the color of the section in view ----------
+  {
     const glows = {
       cyan: ['rgba(45,212,191,.55)', 'rgba(91,140,255,.45)', 'rgba(34,211,238,.35)'],
       violet: ['rgba(192,132,252,.5)', 'rgba(99,102,241,.45)', 'rgba(232,121,249,.32)'],
@@ -135,7 +78,7 @@
       if (e.isIntersecting) paint(bySection[e.target.id] || 'cyan');
     }), { rootMargin: '-45% 0px -45% 0px' });
     $$('section[id]').forEach(s => watch.observe(s));
-    watch.observe($('.hero'));
+    $$('.hero, .reel-wrap').forEach(s => watch.observe(s));
   }
 
   // ---------- Clean: rows arrive, Safe ones tick, totals count ----------
