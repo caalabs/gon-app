@@ -104,6 +104,10 @@ The website loads nothing from other sites. It ships [Motion](https://motion.dev
 `assets/js/motion.min.js` and the Sora typeface (SIL Open Font License, `assets/fonts/Sora-OFL.txt`). Visitors who
 ask for reduced motion get the page at rest.
 
+When you change a stylesheet or script, change its `?v=` in `index.html` too. GitHub Pages lets browsers keep a
+file for 10 minutes, so without a new `?v=` a returning visitor can get the new page with the old file and see it
+broken.
+
 ---
 
 <p align="center">Copyright © 2026 CaaLabs</p>
