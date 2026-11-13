@@ -3,6 +3,14 @@
   <channel>
     <title>Gon</title>
     <item>
+      <title>Gon 0.7.2</title>
+      <pubDate>Fri, 13 Nov 2026 17:44:27 GMT</pubDate>
+      <sparkle:version>10</sparkle:version>
+      <sparkle:shortVersionString>0.7.2</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <enclosure url="https://github.com/caalabs/gon-app/releases/download/v0.7.2/Gon-0.7.2.dmg" type="application/octet-stream" sparkle:edSignature="CSNA78cLl5iFEQBinnTL9XwIfj+NumAsRQm9cwiH0dZlRdcka0qhQBwghr1RwWyWNnTRREzv2LXZZeCQNXnXAg==" length="10181807"/>
+    </item>
+    <item>
       <title>Gon 0.7.1</title>
       <pubDate>Fri, 13 Nov 2026 17:36:11 GMT</pubDate>
       <sparkle:version>9</sparkle:version>
