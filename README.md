@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/caalabs/gon-app/releases/latest"><b>Download</b></a> ·
+  <a href="https://github.com/caalabs/gon-app/releases/latest/download/Gon.dmg"><b>Download</b></a> ·
   <a href="https://caalabs.github.io/gon-app/">Website</a> ·
   <a href="https://github.com/caalabs/gon-app/releases">All releases</a>
 </p>
@@ -25,7 +25,7 @@ and keeps its hands off anything that might be yours.
 
 ## Install
 
-1. Download `Gon-<version>.dmg` from the [latest release](https://github.com/caalabs/gon-app/releases/latest).
+1. [Download Gon.dmg](https://github.com/caalabs/gon-app/releases/latest/download/Gon.dmg), the latest version (every version is under [Releases](https://github.com/caalabs/gon-app/releases)).
 2. Open it and drag **Gon** into **Applications**.
 3. Open Gon. It isn't notarized by Apple yet, so the first time macOS stops it. Go to
    **System Settings › Privacy & Security**, find the message about Gon near the bottom, click **Open Anyway** and
